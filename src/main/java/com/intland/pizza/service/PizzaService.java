@@ -16,8 +16,12 @@ import java.util.List;
 @Service
 public class PizzaService {
 
+    private PizzaRepository repository;
+
     @Autowired
-    PizzaRepository repository;
+    public PizzaService(PizzaRepository repository) {
+        this.repository = repository;
+    }
 
     @Transactional
     public void save(MultipartFile file) {
@@ -33,8 +37,7 @@ public class PizzaService {
     public BudgetResult getPizzasForBudget(int budget) {
         int maxValue = KnapsackHelper.getMaxValue(repository.findAll(), budget);
         List<Pizza> bestCombination = KnapsackHelper.getBestPizzaCombination(repository.findAll(), budget);
-        BudgetResult budgetResult = new BudgetResult(bestCombination, maxValue);
-        return budgetResult;
+        return new BudgetResult(bestCombination, maxValue);
     }
 
     public List<Pizza> getAllPizza() {

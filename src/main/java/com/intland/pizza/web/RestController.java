@@ -18,18 +18,21 @@ import java.util.List;
 @RequestMapping("/api/pizzas")
 public class RestController {
 
-    @Autowired
     private PizzaService pizzaService;
+
+    @Autowired
+    public RestController(PizzaService pizzaService) {
+        this.pizzaService = pizzaService;
+    }
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-        String message = "";
         try {
             pizzaService.save(file);
-            message = "Uploaded the file successfully: " + file.getOriginalFilename();
+            String message = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body("\" message \": \" " + message + " \"");
         } catch (Exception e) {
-            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+            String message = "Could not upload the file: " + file.getOriginalFilename() + "!";
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("\" message \": \" " + message + " \"");
         }
     }
@@ -37,7 +40,7 @@ public class RestController {
 
     @GetMapping
     public ResponseEntity<List<Pizza>> getAllPizzas() {
-        return new ResponseEntity<List<Pizza>>(pizzaService.getAllPizza(), HttpStatus.OK);
+        return new ResponseEntity<>(pizzaService.getAllPizza(), HttpStatus.OK);
     }
 
 }

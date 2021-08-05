@@ -13,8 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class PizzaController {
 
-    @Autowired
     private PizzaService pizzaService;
+
+    @Autowired
+    public PizzaController(PizzaService pizzaService) {
+        this.pizzaService = pizzaService;
+    }
 
     @GetMapping("/order")
     public String pizzaListForm(Model model) {
