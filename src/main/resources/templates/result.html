@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Pizza Express</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<h1>Result</h1>
+<p th:text="'Money spent: ' + ${budgetResult.value}"/>
+<th:block th:each="pizza : ${budgetResult.pizzas}">
+    <p th:text="'Pizza: ' + ${pizza.name}"/>
+    <p th:text="'Pice: ' + ${pizza.price}"/>
+    <div th:if="${pizza.toppings != null}">
+        <ul>
+            <th:block th:object="${pizza}">
+                <li th:each="item : *{toppings}" th:text="${item}">Item description here...</li>
+            </th:block>
+        </ul>
+    </div>
+</th:block>
+
+<a href="/order">Calculate with other budget</a>
+</body>
+</html>
